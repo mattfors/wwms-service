@@ -1,0 +1,90 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+        <changeSet id="1" author="mattfors">
+            <sql>
+                CREATE TABLE barcode (
+                    barcode_id INT AUTO_INCREMENT PRIMARY KEY,
+                    product_id INT NOT NULL,
+                    barcode_type VARCHAR(10) NOT NULL,
+                    barcode_data VARCHAR(50) NOT NULL,
+                    UNIQUE (product_id, barcode_type, barcode_data)
+                );
+            </sql>
+        </changeSet>
+
+        <changeSet id="2" author="mattfors">
+            <sql>
+                CREATE TABLE dimension (
+                    dimension_id INT AUTO_INCREMENT PRIMARY KEY,
+                    weight DECIMAL(10, 2) NOT NULL,
+                    length DECIMAL(10, 2) NOT NULL,
+                    width DECIMAL(10, 2) NOT NULL,
+                    height DECIMAL(10, 2) NOT NULL
+                );
+            </sql>
+        </changeSet>
+
+        <changeSet id="3" author="mattfors">
+            <sql>
+                CREATE TABLE material (
+                    material_id INT AUTO_INCREMENT PRIMARY KEY,
+                    brand_code VARCHAR(10) NOT NULL,
+                    mat_num VARCHAR(50) NOT NULL UNIQUE,
+                    ext_mat_num VARCHAR(50) NOT NULL,
+                    prod_type VARCHAR(100) NOT NULL,
+                    case_qty INT NOT NULL,
+                    dimension_id INT,
+                    description_id INT,
+                    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    mod_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    UNIQUE (brand_code, mat_num)
+                );
+            </sql>
+        </changeSet>
+
+        <changeSet id="4" author="mattfors">
+            <sql>
+                CREATE TABLE description (
+                    description_id INT AUTO_INCREMENT PRIMARY KEY,
+                    short_desc VARCHAR(255) NOT NULL,
+                    long_desc TEXT NOT NULL
+                );
+            </sql>
+        </changeSet>
+
+        <changeSet id="5" author="mattfors">
+            <sql>
+                CREATE TABLE brand (
+                    brand_code VARCHAR(10) NOT NULL PRIMARY KEY,
+                    brand_name VARCHAR(100) NOT NULL,
+                    address_id INT
+                );
+            </sql>
+        </changeSet>
+
+        <changeSet id="6" author="mattfors">
+            <sql>
+                CREATE TABLE address (
+                    address_id INT AUTO_INCREMENT PRIMARY KEY,
+                    delivery_name VARCHAR(255) NOT NULL,
+                    delivery_line_1 VARCHAR(255) NOT NULL,
+                    delivery_line_2 VARCHAR(255),
+                    suite VARCHAR(50),
+                    city VARCHAR(100) NOT NULL,
+                    state VARCHAR(100) NOT NULL,
+                    zip_code VARCHAR(20) NOT NULL,
+                    zip_plus4 VARCHAR(10),
+                    country VARCHAR(100) NOT NULL,
+                    phone_number VARCHAR(12),
+                    delivery_point_barcode VARCHAR(12)
+                );
+            </sql>
+        </changeSet>
+
+
+
+</databaseChangeLog>

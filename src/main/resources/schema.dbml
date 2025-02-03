@@ -1,0 +1,61 @@
+Table barcode {
+  barcode_id int [pk]
+  product_id int [ref: > product.product_id]
+  barcode_type varchar(10)
+  barcode_data varchar(50)
+}
+
+Table description {
+  description_id int [pk]
+  short_desc varchar(255)
+  long_desc text
+}
+
+Table dimension {
+  dimension_id int [pk]
+  weight decimal(10, 2)
+  length decimal(10, 2)
+  width decimal(10, 2)
+  height decimal(10, 2)
+}
+
+Table product {
+  product_id int [pk]
+  brand_code varchar(10) [ref: > brand.brand_code]
+  mat_num varchar(50) [unique]
+  ext_mat_num varchar(50)
+  prod_type varchar(100)
+  case_qty int
+  dimension_id int [ref: > dimension.dimension_id]
+  description_id int [ref: > description.description_id]
+  create_date timestamp
+  mod_date timestamp
+}
+
+Table brand {
+  brand_code varchar(10) [pk]
+  brand_name varchar(100)
+  address_id int [ref: > address.address_id]
+}
+
+Table address {
+  address_id int [pk]
+  delivery_name varchar(255)
+  delivery_line_1 varchar(255)
+  delivery_line_2 varchar(255)
+  suite varchar(50)
+  city varchar(100)
+  state varchar(100)
+  zip_code varchar(20)
+  zip_plus4 varchar(10)
+  country varchar(100)
+  phone_number varchar(12)
+  delivery_point_barcode varchar(12)
+}
+
+TableGroup ProductGroup {
+  product
+  barcode
+  description
+  dimension
+}
