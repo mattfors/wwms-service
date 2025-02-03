@@ -10,9 +10,9 @@ open class Barcode {
     @Column(name = "barcode_id", nullable = false)
     open var id: Int? = null
 
-    @javax.validation.constraints.NotNull
-    @Column(name = "material_id", nullable = false)
-    open var materialId: Int? = null
+    @ManyToOne
+    @JoinColumn(name = "material_id", nullable = false)
+    open var material: Material? = null
 
     @javax.validation.constraints.Size(max = 10)
     @javax.validation.constraints.NotNull

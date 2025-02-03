@@ -48,7 +48,7 @@ open class Material {
 
     @Column(name = "mod_date")
     open var modDate: Instant? = null
-
+/*
     @OneToMany(mappedBy = "material", cascade = [CascadeType.ALL], orphanRemoval = true)
-    open var barcodes: List<Barcode> = mutableListOf()
+    open var barcodes: List<Barcode> = mutableListOf()*/
 }

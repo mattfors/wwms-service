@@ -1,5 +1,7 @@
 package org.fors.wwms.idoc
 
+import com.fasterxml.jackson.annotation.JsonRootName
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import javax.validation.constraints.*
 
 // Enum classes
@@ -329,7 +331,7 @@ data class E1MBEWM(
     val ZKPRS: String? // Future price
 )
 
-data class E1MARMM(
+data class E1MARMM (
     @field:Size(max = 3)
     val MSGFN: String?, // Message function code
 
@@ -369,51 +371,51 @@ data class E1MARMM(
 
 // Main IDoc Class
 data class Matmas03Idoc(
-    @field:NotBlank(message = "IDOC Type is required")
     @field:Size(max = 8, message = "IDOCTYPE must be 8 characters long")
     val IDOCTYPE: String?,   // IDoc Type (e.g., MATMAS03)
 
-    @field:NotBlank(message = "Message Type is required")
     @field:Size(max = 6, message = "MESTYP must be 6 characters long")
     val MESTYP: String?,     // Message Type (e.g., MATMAS)
 
-    @field:NotBlank(message = "Sender partner type is required")
     @field:Size(max = 2, message = "SNDPRT must be 2 characters long")
     val SNDPRT: String?,     // Sender partner type
 
-    @field:NotBlank(message = "Sender port is required")
     @field:Size(max = 8, message = "SNDPOR must be 8 characters long")
     val SNDPOR: String?,     // Sender port
 
-    @field:NotBlank(message = "Receiver partner type is required")
     @field:Size(max = 2, message = "RCVPRT must be 2 characters long")
     val RCVPRT: String?,     // Receiver partner type
 
-    @field:NotBlank(message = "Receiver port is required")
     @field:Size(max = 8, message = "RCVPOR must be 8 characters long")
     val RCVPOR: String?,     // Receiver port
 
-    @field:NotBlank(message = "Sender logical system is required")
     @field:Size(max = 3, message = "SNDLAD must be 3 characters long")
     val SNDLAD: String?,     // Sender logical system
 
-    @field:NotBlank(message = "Receiver logical system is required")
     @field:Size(max = 3, message = "RCVLAD must be 3 characters long")
     val RCVLAD: String?,     // Receiver logical system
 
-    @field:NotBlank(message = "Sender partner number is required")
     @field:Size(max = 10, message = "SNDID must be 10 characters long")
     val SNDID: String?,      // Sender partner number
 
-    @field:NotBlank(message = "Receiver partner number is required")
     @field:Size(max = 10, message = "RCVID must be 10 characters long")
     val RCVID: String?,      // Receiver partner number
 
-    val E1MARAM: List<E1MARAM>? = emptyList(),   // Material master general data
-    val E1MAKTM: List<E1MAKTM>? = emptyList(),   // Material descriptions (language-specific)
-    val E1MARDM: List<E1MARDM>? = emptyList(),   // Material plant data
-    val E1MARCM: List<E1MARCM>? = emptyList(),   // Material MRP data
-    val E1MKALM: List<E1MKALM>? = emptyList(),   // Production version data
-    val E1MBEWM: List<E1MBEWM>? = emptyList(),   // Valuation data
-    val E1MARMM: List<E1MARMM>? = emptyList()    // Alternative unit of measure data
+
+    //val E1MARAM: List<E1MARAM>? = emptyList(),   // Material master general data
+    //val E1MAKTM: List<E1MAKTM>? = emptyList(),   // Material descriptions (language-specific)
+    //val E1MARDM: List<E1MARDM>? = emptyList(),   // Material plant data
+    //val E1MARCM: List<E1MARCM>? = emptyList(),   // Material MRP data
+    //val E1MKALM: List<E1MKALM>? = emptyList(),   // Production version data
+    //val E1MBEWM: List<E1MBEWM>? = emptyList(),   // Valuation data
+    //val E1MARMM: List<E1MARMM>? = emptyList()    // Alternative unit of measure data
+
+
+    val E1MARAM: E1MARAM?,   // Material master general data
+    val E1MAKTM: E1MAKTM?,   // Material descriptions (language-specific)
+    val E1MARDM: E1MARDM?,   // Material plant data
+    val E1MARCM: E1MARCM?,   // Material MRP data
+    val E1MKALM: E1MKALM?,   // Production version data
+    val E1MBEWM: E1MBEWM?,   // Valuation data
+    val E1MARMM: E1MARMM?    // Alternative unit of measure data
 )
