@@ -1,0 +1,9 @@
+[[commands]]
+buckleId = "1"
+type = "sql"
+commandString = "SELECT * FROM users"
+
+[[commands]]
+buckleId = "2"
+type = "macho"
+commandString = "MACHO COMMAND"
