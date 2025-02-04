@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks xmlns="http://www.smooks.org/ns/smooks"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.smooks.org/ns/smooks http://www.smooks.org/ns/smooks/smooks-1.0.xsd">
+
+    <!-- Define EDI Processing Configuration -->
+    <edi-config>
+        <!-- Define EDI Message Type (EDIFACT in this case) -->
+        <edi-message type="EDIFACT" version="D96A">
+            <!-- Define the segments to process -->
+            <segment name="UNH" minOccurs="1" maxOccurs="1"/>
+            <segment name="BGM" minOccurs="1" maxOccurs="1"/>
+            <segment name="LIN" minOccurs="1" maxOccurs="unbounded"/>
+            <segment name="PIA" minOccurs="1" maxOccurs="unbounded"/>
+            <segment name="QTY" minOccurs="0" maxOccurs="unbounded"/>
+            <segment name="DIM" minOccurs="0" maxOccurs="unbounded"/>
+            <segment name="MEA" minOccurs="0" maxOccurs="unbounded"/>
+        </edi-message>
+    </edi-config>
+
+    <!-- Define Mapping Rules for Transforming EDI to DTO -->
+    <mapping>
+        <map-to bean="materialDTO">
+            <!-- Map the BGM segment to MaterialDTO fields -->
+            <map-from path="BGM/2" to="matNum"/> <!-- Material Number -->
+            <map-from path="BGM/3" to="shortDesc"/> <!-- Short Description -->
+            <map-from path="BGM/4" to="longDesc"/> <!-- Long Description -->
+
+            <!-- Map LIN to MaterialDTO (assuming you have multiple LINs for different items) -->
+            <map-from path="LIN[1]/PIA[1]/1" to="barcodes[0].value"/> <!-- Barcode 1 -->
+            <map-from path="LIN[1]/PIA[2]/1" to="barcodes[1].value"/> <!-- Barcode 2 (if available) -->
+
+            <!-- Map DIM for Dimensions -->
+            <map-from path="LIN[1]/DIM[1]/1" to="length"/> <!-- Length -->
+            <map-from path="LIN[1]/DIM[1]/2" to="width"/>  <!-- Width -->
+            <map-from path="LIN[1]/DIM[1]/3" to="height"/> <!-- Height -->
+
+            <!-- Map MEA segment for weight and other measures -->
+            <map-from path="LIN[1]/MEA[1]/1" to="weight"/> <!-- Weight -->
+
+            <!-- Map QTY segment to case quantity -->
+            <map-from path="LIN[1]/QTY[1]/1" to="caseQty"/> <!-- Case Quantity -->
+
+            <!-- Material type and other attributes (optional) -->
+            <map-from path="BGM/5" to="materialType"/> <!-- Material Type -->
+            <map-from path="BGM/1" to="brandCode"/> <!-- Brand Code -->
+        </map-to>
+
+        <!-- Optional: Additional Mappings for any other DTO fields you need -->
+        <!-- Example: Mappings for any other nested elements -->
+        <!-- <map-from path="somePath" to="nestedField"/> -->
+    </mapping>
+
+</smooks>
